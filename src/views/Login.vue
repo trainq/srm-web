@@ -56,10 +56,10 @@
 
 <script>
 import {onMounted, reactive, ref} from "vue";
-import {getCaptchaApi, loginApi} from "@/api/auth";
+import {getCaptchaApi, loginApi} from "../api/auth";
 import {ElMessage} from "element-plus";
-import router from "@/router";
-import SvgIcon from "@/components/SvgIcon";
+import router from "../router";
+import SvgIcon from "../components/SvgIcon";
 
 export default {
   name: "Login",
@@ -80,6 +80,7 @@ export default {
       password: "",
       captcha: "",
       captchaKey: "",
+      platformId: 1,
     });
     const loginFormRef = ref("");
     const loginRules = reactive({
@@ -106,11 +107,12 @@ export default {
         if (valid) {
           //loginForm.password = sha1(loginForm.password);
           loginApi(loginForm).then(response => {
-            const data = response.data;
+            console.log(response)
             if (response.code === 500) {
               loginFormRef.value.resetFields();
               getCaptcha();
             }
+            const data = response.data;
             localStorage.setItem("token", data.token)
             ElMessage.success(data.nickname + ",你好！欢迎使用供应商管理系统",)
             return router.push('/')

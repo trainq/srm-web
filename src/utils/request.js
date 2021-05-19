@@ -1,6 +1,6 @@
 import axios from "axios";
 import {ElMessage} from "element-plus";
-import router from "@/router";
+import router from "../router";
 
 const BASEURL = process.env.NODE_ENV === "production" ? "" : "/api";
 const server = axios.create({
@@ -21,12 +21,12 @@ server.interceptors.response.use(
     (response) => {
         let data = response.data;
         if (data.code !== 200) {
-            ElMessage.error(data.msg);
+            ElMessage.error(data.message);
             if (data.code === 401) {
                 localStorage.removeItem("token");
                 return router.push('/');
             }
-            return data;
+            return Promise.reject(response);
         }
         return data;
     },

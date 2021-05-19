@@ -34,7 +34,7 @@ module.exports = {
         hotOnly: false,
         proxy: {
             "/api": {
-                target: "http://localhost:8089/srm",
+                target: "http://192.168.31.219:9000/srm",
                 changeOrigin: true,
                 pathRewrite: {
                     "^/api": "",
